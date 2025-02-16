@@ -1,0 +1,30 @@
+<% layout('layouts/boilerplate') %>
+
+    <h1 class="text-center">All you need for a long day!</h1>
+
+    <% for(let breakfast of breakfasts){ %>
+        <div class="card mb-3 mx-auto" style="max-width: 840px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="<%=breakfast.images[0].url%>" class="img-fluid rounded-start" alt="...">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <%=breakfast.title%>
+                        </h5>
+                        <p class="card-text">
+                            <%=breakfast.location%>
+                        </p>
+                        <form action="/breakfasts/<%=breakfast._id%>" method="GET">
+                            <button type="submit" class="btn btn-primary">View <%=breakfast.title%></button>
+                        </form>
+                        <p class="card-text mt-3">
+                            <small class="text-muted">Posted on <%= new Date(breakfast.date).toLocaleDateString('vi-VN')
+                                    %></small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% } %>

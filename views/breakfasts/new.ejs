@@ -1,0 +1,47 @@
+<% layout('layouts/boilerplate') %>
+    <div class="row">
+        <h1 class="text-center">Add new breakfast</h1>
+        <div class="col-6 offset-3">
+            <form action="/breakfasts" method="POST" novalidate class='needs-validation' enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="title" name="breakfast[title]" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="location" class="form-label">Location</label>
+                    <input type="text" class="form-control" id="location" name="breakfast[location]" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+
+
+
+
+                <div class="mb-3">
+                    <label for="price" class="form-label">Price</label>
+                    <input type="text" class="form-control" id="price" name="breakfast[price]" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Phone</label>
+                    <input type="text" class="form-control" id="phone" name="breakfast[phone]" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="customFile" class="form-label">Choose image(s)</label>
+                    <input class="form-control" type="file" id="customFile" name="image" multiple>
+                </div>
+                <button class="btn btn-success">Submit</button>
+
+
+            </form>
+        </div>
+    </div>
