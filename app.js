@@ -25,8 +25,12 @@ const MongoStore = require('connect-mongo');
 const dbUrl = process.env.DB_URL || 'mongodb://127.0.0.1:27017/breakfast';
 
 
-mongoose.connect(dbUrl).
-    catch(error => handleError(error));
+mongoose.connect(dbUrl)
+    .then(() => console.log('Database connected'))
+    .catch((error) => {
+        console.error('MongoDB connection error:', error);
+        process.exit(1);
+    });
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
