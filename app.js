@@ -47,7 +47,7 @@ app.use(methodOverride('_method'));
 
 const secret = process.env.SECRET || 'thisisaverystrongsecret';
 
-const store = new MongoStore({
+const store = new MongoStore.create({
     url: dbUrl,
     secret,
     touchAfter: 24 * 60 * 60
