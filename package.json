@@ -28,7 +28,7 @@
     "passport": "^0.7.0",
     "passport-local-mongoose": "^8.0.0",
     "uuid": "^11.0.5"
-  }
+  },
   "engines": {
     "node": "18.x"
   }
