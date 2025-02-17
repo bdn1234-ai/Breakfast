@@ -15,7 +15,6 @@ module.exports.createBreakfast = async (req, res, next) => {
     const date = new Date(timestamp);
     breakfast.date = date;
     await breakfast.save();
-    console.log(breakfast);
     req.flash('success', 'Successfully create a Breakfast!');
     res.redirect('/breakfasts');
 }
