@@ -1,0 +1,58 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="row">
+    <h1 class="text-center">Add new breakfast</h1>
+    <div class="col-6 offset-3">
+        <form action="/restaurants/<%=restaurant._id%>/menu" method="POST" onsubmit="removeDots(event)" novalidate class='needs-validation' enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" name="dish[title]" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            
+
+
+            <div class="mb-3">
+                <label for="price" class="form-label">Price</label>
+                <input type="text" class="form-control" id="price" name="dish[price]" oninput="formatNumber(this)" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="customFile" class="form-label">Choose image(s)</label>
+                <input class="form-control" type="file" id="customFile" name="image" >
+            </div>
+
+
+            <button class="btn btn-success">Submit</button>
+
+
+        </form>
+    </div>
+</div>
+
+<script>
+    function formatNumber(input) {
+        // Lấy giá trị của ô input và xóa tất cả ký tự không phải là số (bao gồm dấu phẩy và dấu chấm)
+        let value = input.value.replace(/\D/g, '');
+
+        // Định dạng số với dấu phân cách hàng nghìn
+        input.value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
+    function removeDots(event) {
+        let priceInput = document.getElementById('price');
+        // Loại bỏ tất cả dấu chấm (.) trong giá trị của input
+        priceInput.value = priceInput.value.replace(/\./g, '');
+
+        // Ngừng hành động mặc định của form để tránh gửi form khi chưa xử lý
+        event.preventDefault();
+
+        // Sau khi đã xử lý, có thể gửi form bằng cách sử dụng phương thức submit().
+        event.target.submit();
+    }
+</script>

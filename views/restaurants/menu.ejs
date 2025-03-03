@@ -1,0 +1,140 @@
+<% layout('layouts/boilerplate') %>
+
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Menu Chọn Món Ăn</h2>
+
+        <div id="menu" class="row">
+            <% for(let dish of restaurant.dishes){ %>
+                <div class="col-md-3 mb-4">
+                    <div class="card">
+                        <img src="<%=dish.image.url%>" class="card-img-top fixed-image" alt="<%=dish.title%>">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <%=dish.title%>
+                            </h5>
+                            <p class="card-text">Giá: <%= dish.price.toLocaleString('vi-VN') %> VNĐ</p>
+                            <button id="btn-<%= dish._id %>" class="btn btn-primary" <% /* eslint-disable-next-line */
+                                %>
+                                onclick="addToCart('<%= dish.title %>', <%= dish.price %>, 'btn-<%=dish._id%>')">Chọn
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+                <% if(currentUser && currentUser.equals(restaurant.author._id)) { %>
+                <div class="col-md-3 mb-4">
+                    <a href="/restaurants/<%=restaurant._id%>/new">
+                        <div class="card-body">
+                            <div class="text-center border border-primary rounded p-4"
+                                style=" cursor: pointer;">
+                                <p class="text-primary fw-bold">Thêm món ăn</p>
+                                <div class="text-primary display-4">+</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <% } %>
+              
+                    
+                    
+                    
+
+
+        </div>
+    </div>
+
+    <!-- Giỏ hàng -->
+    <h3 class="mt-5">Giỏ Hàng</h3>
+    <ul id="cart" class="list-group mb-3"></ul>
+    <h4 id="total">Tổng: 0 VNĐ</h4>
+
+    <!-- Form gửi dữ liệu đến backend -->
+    <form id="orderForm" action="/restaurants/<%=restaurant._id%>/order" class="mb-3" method="POST">
+        <input type="hidden" name="dishes" id="cartData">
+        <label for="note" class="form-label"><strong>Note for shop owner</strong></label>
+        <textarea rows="4" cols="50" class="form-control" id="note" name="note"></textarea>
+           
+        <button type="submit" class="btn btn-success">Gửi Đơn Hàng</button>
+    </form>
+    </div>
+
+    <script>
+        let total = 0;
+        const cartItems = [];
+
+        function addToCart(item, price, buttonId) {
+            const cart = document.getElementById('cart');
+            const li = document.createElement('li');
+            li.className = 'list-group-item d-flex align-items-center';
+
+            li.innerHTML = `
+                <span class="flex-grow-1">${item}</span>
+                <input type="number" class="form-control mx-2" style="width: 70px;" value="1" min="1" onchange="updateCart(this, ${price}, '${item}')">
+                <span class="item-total">${price.toLocaleString('vi-VN')} VNĐ</span>
+                <button class="btn btn-danger btn-sm ms-3" onclick="removeFromCart(this, ${price}, '${item}', '${buttonId}')">Xoá</button>
+            `;
+
+            cart.appendChild(li);
+
+            cartItems.push({ name: item, price: price, quantity: 1 });
+            updateCartData();
+
+            calculateTotal();
+
+            // Vô hiệu hóa nút "Chọn" của món đã thêm
+            document.getElementById(buttonId).disabled = true;
+        }
+
+        function removeFromCart(button, price, item, buttonId) {
+            const li = button.parentElement;
+            const quantity = parseInt(li.querySelector('input').value) || 1;
+
+            li.remove();
+
+            // Xoá món khỏi cartItems
+            const index = cartItems.findIndex(cartItem => cartItem.name === item);
+            if (index !== -1) cartItems.splice(index, 1);
+            updateCartData();
+
+            calculateTotal();
+
+            // Kích hoạt lại nút "Chọn" khi món bị xoá
+            document.getElementById(buttonId).disabled = false;
+        }
+
+        function updateCart(input, price, item) {
+            const quantity = parseInt(input.value) || 1;
+            const li = input.parentElement;
+            const itemTotal = li.querySelector('.item-total');
+
+            const newAmount = parseInt(price) * quantity;
+            itemTotal.textContent = `${newAmount.toLocaleString('vi-VN')} VNĐ`;
+
+            // Cập nhật số lượng trong cartItems
+            const cartItem = cartItems.find(cartItem => cartItem.name === item);
+            if (cartItem) cartItem.quantity = quantity;
+            updateCartData();
+
+            calculateTotal();
+        }
+
+        function updateCartData() {
+            document.getElementById('cartData').value = JSON.stringify(cartItems);
+        }
+
+        function calculateTotal() {
+            total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            updateTotal();
+        }
+
+        function updateTotal() {
+            document.getElementById('total').textContent = `Tổng: ${total.toLocaleString('vi-VN')} VNĐ`;
+        }
+    </script>
+    <style>
+        a {
+            text-decoration: none;
+        }
+    </style>
+
+    

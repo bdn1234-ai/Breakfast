@@ -18,6 +18,8 @@ const User = require('./models/users');
 const userRoutes = require('./routes/users')
 const breakfastRoutes = require('./routes/breakfasts');
 const reviewRoutes = require('./routes/reviews');
+const restaurantRoutes = require('./routes/restaurants');
+const reviewRestaurantRoutes = require('./routes/reviewRestaurants');
 
 
 const MongoStore = require('connect-mongo');
@@ -83,6 +85,8 @@ app.use((req, res, next) => {
 app.use('/', userRoutes);
 app.use('/breakfasts', breakfastRoutes);
 app.use('/breakfasts/:id/reviews', reviewRoutes);
+app.use('/restaurants', restaurantRoutes);
+app.use('/restaurants/:id/reviews', reviewRestaurantRoutes)
 
 app.get('/', (req, res) => {
     res.render('home');

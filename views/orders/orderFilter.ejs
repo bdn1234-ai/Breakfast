@@ -1,0 +1,33 @@
+<% layout('layouts/boilerplate') %>
+<div class="container mt-5">
+    <h1 class="text-center mb-4"> Danh sách đơn hàng theo tầng</h1>
+
+    <% orders.forEach((order, index)=> { %>
+        <% if (Object.keys(order).length> 0) { %>
+
+            <!-- Hiển thị từng tầng -->
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="h4">Tầng <%= index + 1 %> <a href="/restaurants/<%=restaurant._id%>/floor/<%=index+1%>" class="text-white">(Xem chi tiết)</a>
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <% Object.entries(order).forEach(([item, quantity])=> { %>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span><strong>
+                                        <%= item %>
+                                    </strong></span>
+                                <span class="badge bg-success">
+                                    <%= quantity %> suất
+                                </span>
+                            </li>
+                            <% }) %>
+                    </ul>
+                </div>
+            </div>
+
+            <% } %>
+                <% }) %>
+
+</div>

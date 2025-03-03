@@ -1,0 +1,36 @@
+<% layout('layouts/boilerplate') %>
+<div class="container mt-4">
+    <a href="/restaurants/<%=restaurant._id%>/completedOrder">Các đơn hàng đã gửi</a>
+    <a href="/restaurants/<%=restaurant._id%>/order/filter" class="ml-3">Đơn hàng theo tầng</a>
+    <h3 class="text-primary text-center">Các đơn hàng đang chờ</h3>
+    <% for(let order of restaurant.orders.slice().reverse()){ %>
+        <% if (order.isSent === false){ %>
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <%=new Date(order.date).toLocaleString('vi-VN')%>
+                </h5>
+                <ul>
+                    <% for (let dish of order.dishes) { %>
+                        <li>
+                            <%= dish.title %> * <%= dish.quantity %>
+                        </li>
+                        <% } %>
+                </ul>
+                <p class="card-text text-success"><strong>Tổng:</strong> <%=order.price.toLocaleString('vi-VN')%> VNĐ
+                </p>
+                <p class="card-text"><strong>Tên người nhận:</strong> <%=order.name%> </p>
+                <p class="card-text"><strong>Địa chỉ giao hàng:</strong> Phòng <%=order.room%> tầng <%=order.floor%>
+                </p>
+                <p class="card-text"><strong>Số điện thoại người nhận:</strong> <%=order.phone%> </p>
+                <p class="card-text"><strong>Ghi chú:</strong> <%=order.note%> </p>
+            </div>
+            <form action="/restaurants/<%=restaurant._id%>/order/<%=order._id%>/?_method=PUT" method="POST">
+                <button class="btn btn-success">Đã giao</button>
+            </form>
+        </div>
+        <% } %>
+
+        <% } %>
+
+</div>

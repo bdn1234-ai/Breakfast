@@ -57,33 +57,6 @@ module.exports.editBreakfast = async (req, res, next) => {
     req.flash('success', 'Successfully update Breakfast!');
     res.redirect(`/breakfasts/${breakfast._id}`);
 }
-// module.exports.editBreakfast = async (req, res, next) => {
-//     try {
-//         const { id } = req.params;
-//         const breakfast = await Breakfast.findByIdAndUpdate(id, { ...req.body.breakfast }, { new: true });
-
-//         if (!breakfast) {
-//             req.flash('error', 'Cannot find that breakfast!');
-//             return res.redirect('/breakfasts');
-//         }
-
-//         // Chỉ xử lý ảnh nếu có file upload
-//         console.log(req.files);
-//         if (req.files && req.files.length > 0) {
-//             const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
-//             await breakfast.images.push(...imgs);
-//             await breakfast.save();
-//             console.log(breakfast);
-//         }
-
-//         req.flash('success', 'Successfully updated Breakfast!');
-//         res.redirect(`/breakfasts/${breakfast._id}`);
-//     } catch (err) {
-//         console.error('Error in editBreakfast:', err);
-//         req.flash('error', 'Something went wrong!');
-//         res.redirect('/breakfasts');
-//     }
-// };
 
 
 

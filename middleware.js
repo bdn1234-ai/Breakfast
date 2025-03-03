@@ -2,6 +2,7 @@ const { breakfastSchema, reviewSchema } = require('./schemas');
 const ExpressError = require('./utils/ExpressError');
 const Breakfast = require('./models/breakfasts');
 const Review = require('./models/reviews');
+const Restaurant = require('./models/restaurants')
 const catchAsync = require('./utils/catchAsync.js');
 
 module.exports.validateBreakfast = (req, res, next) => {
@@ -50,6 +51,17 @@ module.exports.isReviewAuthor = async (req, res, next) => {
     if (!review.author.equals(req.user._id)) {
         req.flash('error', 'You do not have permission to do that!');
         res.redirect(`/breakfasts/${breakfast._id}`);
+    } else {
+        next();
+    }
+}
+
+module.exports.isShopOwner = async (req, res, next) => {
+    const { id } = req.params;
+    const restaurant = await Restaurant.findById(id);
+    if (!restaurant.author.equals(req.user._id)) {
+        req.flash('error', 'You do not have permission to do that!');
+        res.redirect(`/restaurants/${restaurant._id}`);
     } else {
         next();
     }

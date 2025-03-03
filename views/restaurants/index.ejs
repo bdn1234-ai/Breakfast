@@ -1,0 +1,42 @@
+<style>
+    .fixed-image {
+        width: 100%;
+        height: 200px;
+    }
+</style>
+<% layout('layouts/boilerplate') %>
+<!-- <div class="container mt-4"> -->
+    <% for(let restaurant of restaurants.slice().reverse()){ %>
+        <% if(currentUser && currentUser.equals(restaurant.author._id)){ %>
+        <a href="/restaurants/<%=restaurant._id %>">My restaurant</a>
+        <% } %>
+     <% } %>   
+    <h1 class="text-center">All you need for a long day!</h1>
+
+    <% for(let restaurant of restaurants.slice().reverse()){ %>
+        <div class="card mb-3 mx-auto" style="max-width: 840px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                   <% if (restaurant.images && restaurant.images.length> 0) { %>
+                        <img src="<%= restaurant.images[0].url %>" class="img-fluid rounded-start fixed-image" alt="Restaurant Image">
+                    <% } else { %>
+                        <img src="" class="img-fluid rounded-start" alt="Default Image">
+                        <% } %>
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <%=restaurant.title%>
+                        </h5>
+                        <p class="card-text">
+                            <%=restaurant.description%>
+                        </p>
+                        <form action="/restaurants/<%=restaurant._id%>" method="GET">
+                            <button type="submit" class="btn btn-primary">View <%=restaurant.title%></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% } %>
+        <!-- </div> -->
